@@ -1,0 +1,38 @@
+<header>Vanishing Bridge</header>
+<div id="settings" *ngIf="myMode=='settings'" >
+  <h1>Settings</h1>
+  <select id="numPlayers" [(ngModel)]="numPlayers" (ngModelChange)="onChangeNumPlayers()">
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+  </select>
+  <ul>
+    <li *ngFor="let playerName of playerNames; let i =index;">
+      <input type="text" [(ngModel)]="playerNames[i].name" placeholder="enter name">
+    </li>
+  </ul>
+</div>
+<div id="play" *ngIf="myMode=='play'" >
+  <table>
+    <tr>
+      <th>Cards</th>
+      <th *ngFor="let playerName of playerNames; let i =index;" >{{playerNames[i].name}}</th>
+      <th>Actions</th>
+    </tr>
+    <tr *ngFor="let cl of cardLevels;">
+      <td>{{cl}}</td>
+      <td *ngFor="let playerName of playerNames; let i =index;" ><square [cardLevel]="cl" [playerID]="i" [startLvl]="maxCards" (bidSet)="onBidSet()" ></square></td>
+      <td id={{cl}}>Hi {{cl}}</td>
+    </tr>
+    <tr>
+      <td>Totals</td>
+      <td *ngFor="let playerName of playerNames; let i =index;" >{{pointTotals[i]}}</td>
+      <td><button type="button" (click)="onTest()" >Test</button></td>
+    </tr>
+  </table>
+</div>
+<footer>
+  <button type="button" (click)="onClickedStart()" >{{buttonText}}</button>
+</footer>
