@@ -7,7 +7,8 @@
 <span *ngIf="stage==2" >{{squareBid}}</span>
 <span *ngIf="stage==3" >
   <select [(ngModel)]="squareTricks" (change)="onChangeTricks($event.target.value)" >
-    <option *ngFor="let p of squareCards" [ngValue]="p">{{p}}</option>
+    <option *ngFor="let p of squareCards" [ngValue]="p" >{{p}}</option>
   </select>  
 </span>
-<span *ngIf="stage==4" >{{squarePoints}}</span>
+<span *ngIf="stage==4" [style.background-color]="isSpecial ? 'light blue' : ''" >{{squarePoints}}</span>
+  

@@ -25,7 +25,9 @@ export class AppComponent {
   pointTotals = [];
   bids = [];
   points = [];
+  tricks = [];
   bidSum : number;
+  tricksSum : number;
 
   @ViewChildren(SquareComponent) squareComponents: QueryList<SquareComponent>;
   @ViewChildren(ActionComponent) actionComponents: QueryList<ActionComponent>;
@@ -41,6 +43,7 @@ export class AppComponent {
     this.cardLevels = [];
     this.bids = [];
     this.points = [];
+    this.tricks = [];
   }
 
   onChangeNumPlayers(){
@@ -93,6 +96,7 @@ export class AppComponent {
 
   onPointsSet(squareObj){
     this.points[squareObj.playerID]=squareObj.squarePoints; 
+    this.tricks[squareObj.playerID]=squareObj.squareTricks; 
     //console.log(JSON.stringify(this.bids, null, "  "));
     //console.log('length '+ this.bids.length);
   }
@@ -146,12 +150,20 @@ export class AppComponent {
         window.alert("Make sure all points are set.");//alert
         return;
       }
+      this.tricksSum = 0;
       for(let i=0; i<this.points.length; i++){
         if(this.points[i] == undefined){
           actionObj.priorActionStage();//send stage back to prior level
           window.alert("Make sure all points are set.");//alert
           return;         
         }
+        this.tricksSum += this.tricks[i];
+      }
+      //check and make sure right number of points were claimed 
+      if(this.tricksSum != actionObj.cardLevel){
+        actionObj.priorActionStage();//send stage back to prior level
+        window.alert("The number of tricks claimed ("+this.tricksSum+') does not equal the number of points in the hand ('+actionObj.cardLevel+').');//alert
+        return;         
       }
       //update points
        this.updatePlayerPointTotals();

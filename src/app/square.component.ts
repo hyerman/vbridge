@@ -25,6 +25,7 @@ export class SquareComponent {
   squareTricks: number;
   stage : number;
   squareCards = [];
+  isSpecial : boolean;
 
   constructor(){
     this.squarePoints= 0;
@@ -32,6 +33,7 @@ export class SquareComponent {
     this.squareTricks = undefined;
     this.stage = 0;
     this.squareCards=[];
+    this.isSpecial = false; 
   }
 
   ngOnInit() { 
@@ -44,7 +46,7 @@ export class SquareComponent {
       this.increaseSquareStage();
     }
     //console.log(this.cardLevel+' '+this.playerID+' '+this.squarePoints+' '+this.squareCards);
-    //console.log('h '+this.squareCards);
+    //console.log('h '+this.squareCards);   
   }
 
   onChangeBid(value){
@@ -62,7 +64,9 @@ export class SquareComponent {
 
     if(this.squareBid == this.squareTricks){
       this.squarePoints = this.squarePoints + 10;
+      this.isSpecial = true;
     }
+
     this.pointsSet.emit(this);
     //console.log('bid b '+this.squareBid);
     //console.log('points b '+this.squarePoints);
