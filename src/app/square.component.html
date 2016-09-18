@@ -1,13 +1,13 @@
 <span *ngIf="stage==0" >-</span>
 <span *ngIf="stage==1" >
-  <select [(ngModel)]="squareBid" #b (change)="onChangeBid(b.value)" >
+  <select [(ngModel)]="squareBid" (change)="onChangeBid($event.target.value)" >
     <option *ngFor="let p of squareCards" [ngValue]="p" >{{p}}</option>
   </select>
 </span>
 <span *ngIf="stage==2" >{{squareBid}}</span>
 <span *ngIf="stage==3" >
-  <select [(ngModel)]="squareTricks" (change)="onChangeTricks()" >
-    <option *ngFor="let p of squareCards" [attr.value]="p">{{p}}</option>
+  <select [(ngModel)]="squareTricks" (change)="onChangeTricks($event.target.value)" >
+    <option *ngFor="let p of squareCards" [ngValue]="p">{{p}}</option>
   </select>  
 </span>
 <span *ngIf="stage==4" >{{squarePoints}}</span>

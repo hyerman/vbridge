@@ -1,4 +1,4 @@
-import { Component,ViewChildren,QueryList } from '@angular/core';
+import { Component,ViewChildren,QueryList,ViewChild } from '@angular/core';
 import { SquareComponent } from './square.component';
 import { ActionComponent } from './action.component';
 //import {ChildCmp} from "./child";
@@ -23,8 +23,13 @@ export class AppComponent {
   currentCards : number;
   cardLevels = [];
   pointTotals = [];
+  bids = [];
+  points = [];
+  bidSum : number;
 
   @ViewChildren(SquareComponent) squareComponents: QueryList<SquareComponent>;
+  @ViewChildren(ActionComponent) actionComponents: QueryList<ActionComponent>;
+
 
   constructor(){
     this.numPlayers = 4;
@@ -34,6 +39,8 @@ export class AppComponent {
     this.buttonText = 'Start Game';
     this.cardCounts = [52,52,26,17,13,10,8]; 
     this.cardLevels = [];
+    this.bids = [];
+    this.points = [];
   }
 
   onChangeNumPlayers(){
@@ -65,8 +72,29 @@ export class AppComponent {
     }
   }
 
-  onBidSet(){
-    console.log('bid was set');
+  onBidSet(squareObj){
+    //update array of player bids
+    this.bids[squareObj.playerID]=squareObj.squareBid; 
+    //determine sum of bids and send to action component
+    this.bidSum = 0;
+    for(let i=0; i<this.bids.length; i++){
+      if(this.bids[i] != undefined){
+        this.bidSum += this.bids[i];
+      }
+    }
+    //find right action component and send bidSum to it
+    this.actionComponents.toArray().forEach(
+    (child)=>{
+      if(child.stage == 1){
+        child.setBidSum(this.bidSum);
+      }
+    });
+  }
+
+  onPointsSet(squareObj){
+    this.points[squareObj.playerID]=squareObj.squarePoints; 
+    //console.log(JSON.stringify(this.bids, null, "  "));
+    //console.log('length '+ this.bids.length);
   }
 
   onTest(){
@@ -90,6 +118,69 @@ export class AppComponent {
     this.squareComponents.toArray().forEach(
     (child)=>{
       this.pointTotals[child.getSquarePlayerID()] += child.getSquarePoints();
+    });
+  }
+
+  onActionStageIncreased(actionObj){
+    //console.log(actionObj.cardLevel);
+    //make sure all the bids are set
+    if(actionObj.stage == 2){
+      if(this.bids.length != this.numPlayers){
+        actionObj.priorActionStage();//send stage back to prior level
+        window.alert("Make sure all bids are set.");//alert
+        return;
+      }
+      for(let i=0; i<this.bids.length; i++){
+        if(this.bids[i] == undefined){
+          actionObj.priorActionStage();//send stage back to prior level
+          window.alert("Make sure all bids are set.");//alert
+          return;         
+        }
+      }
+    }
+
+    if(actionObj.stage == 4){
+      //make sure all points are set
+      if(this.points.length != this.numPlayers){
+        actionObj.priorActionStage();//send stage back to prior level
+        window.alert("Make sure all points are set.");//alert
+        return;
+      }
+      for(let i=0; i<this.points.length; i++){
+        if(this.points[i] == undefined){
+          actionObj.priorActionStage();//send stage back to prior level
+          window.alert("Make sure all points are set.");//alert
+          return;         
+        }
+      }
+      //update points
+       this.updatePlayerPointTotals();
+       let nextLevel=actionObj.cardLevel-1;
+       if(nextLevel == 0){
+         //game over man
+       }
+       else{
+        this.actionComponents.toArray().forEach(
+        (child)=>{
+          if(child.cardLevel == nextLevel){
+            child.nextActionStage();
+          }
+        });  
+        this.bids = [];//reset bids array
+        this.points = [];//reset points array
+       }
+    }
+    //remember to turn off ngOnInit for square or it will double count
+      //should check that all squares are complete
+      //rollback action level and alert user to error
+      //or maybe have the action component check the squares...
+    //call nextActionStage() of action component in next row
+    //update row square levels
+    this.squareComponents.toArray().forEach(
+    (child)=>{
+      if(child.getSquareCardLevel() == actionObj.cardLevel){
+        child.increaseSquareStage();
+      }
     });
   }
 }

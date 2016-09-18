@@ -1,0 +1,12 @@
+<span *ngIf="stage==0" >-</span>
+<span *ngIf="stage==1" >{{cardLevel}}-{{bidSum}} = {{remainingPoints}}  
+    <button type="button" (click)="nextActionStage()" >Next</button>
+</span>
+<span *ngIf="stage==2" >Play Game 
+    <button type="button" (click)="nextActionStage()" >Next</button>
+</span>
+<span *ngIf="stage==3" >Record 
+    <button type="button" (click)="nextActionStage()" >Next</button>
+</span>
+<span *ngIf="stage==4" >Points 
+</span>

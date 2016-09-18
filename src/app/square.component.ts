@@ -27,9 +27,9 @@ export class SquareComponent {
   squareCards = [];
 
   constructor(){
-    this.squarePoints=0;
+    this.squarePoints= 0;
     this.squareBid = undefined;
-    this.squareTricks = 0;
+    this.squareTricks = undefined;
     this.stage = 0;
     this.squareCards=[];
   }
@@ -48,22 +48,24 @@ export class SquareComponent {
   }
 
   onChangeBid(value){
-    this.bidSet.emit(null);
-    console.log('value a '+value);
-    console.log('bid a '+this.squareBid);
-    console.log('tricks a '+this.squareTricks);
-    console.log('points a '+this.squarePoints);
+    this.squareBid = parseInt(value);
+    this.bidSet.emit(this);
+    //console.log('value a '+value);
+    //console.log('bid a '+this.squareBid);
+    //console.log('tricks a '+this.squareTricks);
+    //console.log('points a '+this.squarePoints);
   }
-  onChangeTricks(){
+  onChangeTricks(value){
+    this.squareTricks = parseInt(value);
     this.squarePoints = 0;
     this.squarePoints = this.squareTricks;
+
     if(this.squareBid == this.squareTricks){
       this.squarePoints = this.squarePoints + 10;
     }
-    this.pointsSet.emit(null);
-    console.log('bid b '+this.squareBid);
-    console.log('tricks b '+this.squareTricks);
-    console.log('points b '+this.squarePoints);
+    this.pointsSet.emit(this);
+    //console.log('bid b '+this.squareBid);
+    //console.log('points b '+this.squarePoints);
   }
 
   getSquarePoints(){

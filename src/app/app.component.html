@@ -23,13 +23,13 @@
     </tr>
     <tr *ngFor="let cl of cardLevels;">
       <td>{{cl}}</td>
-      <td *ngFor="let playerName of playerNames; let i =index;" ><square [cardLevel]="cl" [playerID]="i" [startLvl]="maxCards" (bidSet)="onBidSet()" ></square></td>
-      <td id={{cl}}>Hi {{cl}}</td>
+      <td *ngFor="let playerName of playerNames; let i =index;" ><square [cardLevel]="cl" [playerID]="i" [startLvl]="maxCards" (bidSet)="onBidSet($event)" (pointsSet)="onPointsSet($event)" ></square></td>
+      <td ><action id={{cl}} [cardLevel]="cl" [startLvl]="maxCards" (actionStageIncreased)="onActionStageIncreased($event)" ></action></td>
     </tr>
     <tr>
       <td>Totals</td>
       <td *ngFor="let playerName of playerNames; let i =index;" >{{pointTotals[i]}}</td>
-      <td><button type="button" (click)="onTest()" >Test</button></td>
+      <td></td>
     </tr>
   </table>
 </div>
