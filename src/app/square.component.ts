@@ -12,12 +12,15 @@ export const enum StageEnum {
   moduleId: module.id,
   selector: 'square',
   templateUrl: 'square.component.html',
+  styleUrls: ['square.component.css']
 })
 
 export class SquareComponent {
   @Input() cardLevel : number;
   @Input() playerID : number;
   @Input() startLvl : number;
+  @Input() numPlayers : number;
+  @Input() startDealer : number;
   @Output() bidSet: EventEmitter<any> = new EventEmitter();
   @Output() pointsSet: EventEmitter<any> = new EventEmitter();
   squarePoints: number;
@@ -26,6 +29,8 @@ export class SquareComponent {
   stage : number;
   squareCards = [];
   isSpecial : boolean;
+  isDealer : boolean;
+  isFirstBidder : boolean;
 
   constructor(){
     this.squarePoints= 0;
@@ -34,7 +39,17 @@ export class SquareComponent {
     this.stage = 0;
     this.squareCards=[];
     this.isSpecial = false; 
+    this.isDealer = false;
+    this.isFirstBidder = false; 
   }
+
+setClasses() {
+  let classes =  {
+    dealer: this.isDealer, 
+    firstBidder: this.isFirstBidder, 
+  };
+  return classes;
+}
 
   ngOnInit() { 
     //this.squareCards.push('Bid');
@@ -45,8 +60,17 @@ export class SquareComponent {
       //this square is in the top row and needs to move up a stage
       this.increaseSquareStage();
     }
-    //console.log(this.cardLevel+' '+this.playerID+' '+this.squarePoints+' '+this.squareCards);
-    //console.log('h '+this.squareCards);   
+
+    //determine if dealer or bidder
+    let b = (this.startDealer + this.startLvl - this.cardLevel) % this.numPlayers;
+    if(b == this.playerID){
+      this.isDealer = true;
+    }
+
+    let c = (1 + this.startDealer + this.startLvl - this.cardLevel) % this.numPlayers;
+    if(c == this.playerID){
+      this.isFirstBidder = true;
+    }
   }
 
   onChangeBid(value){

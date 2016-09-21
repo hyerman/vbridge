@@ -28,6 +28,7 @@ export class AppComponent {
   tricks = [];
   bidSum : number;
   tricksSum : number;
+  startDealer : number;
 
   @ViewChildren(SquareComponent) squareComponents: QueryList<SquareComponent>;
   @ViewChildren(ActionComponent) actionComponents: QueryList<ActionComponent>;
@@ -39,11 +40,12 @@ export class AppComponent {
     this.pointTotals = [0,0,0,0];
     this.myMode = 'settings';
     this.buttonText = 'Start Game';
-    this.cardCounts = [52,52,26,17,13,10,8]; 
+    this.cardCounts = [52,52,26,17,13,10,8,7,6,5,5]; 
     this.cardLevels = [];
     this.bids = [];
     this.points = [];
     this.tricks = [];
+    this.startDealer = 0;
   }
 
   onChangeNumPlayers(){
@@ -53,6 +55,14 @@ export class AppComponent {
       this.playerNames[i] = {name:''};
       this.pointTotals[i] = 0;
     }
+  }
+
+  onPickRandomDealer(){
+    this.startDealer = Math.floor(Math.random() * (this.numPlayers - 0)) + 0;
+  }
+
+  onSelectDealer(value){
+    this.startDealer = parseInt(value);
   }
 
   onClickedStart(){
@@ -68,6 +78,7 @@ export class AppComponent {
       for(let i=this.maxCards; i>0; i--){
         this.cardLevels.push(i);
       }
+      console.log('aaa '+this.startDealer);
     }
     else{
       this.myMode='settings';
