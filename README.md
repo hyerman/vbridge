@@ -2,30 +2,22 @@
 
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.10.
 
-## Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Vanishing Bridge Scorekeeping Web App
+This web app is for keeping score in a game my family calls Vanishing Bridge. Other names for the game are Oh Hell and Screw Your Neighbor. 
+Here is a good description of the game https://www.pagat.com/exact/ohhell.html. 
+We usually play with these varients:
+- Spades are always trump
+- The bids can add up to the number of cards
+- THe very first card led of each hand cannot be a spade (unless all the player has is a spade)
+- With scoring, you get the points you get, plus the bonus of 10 if you get match your bid.
+- With four players we start with 13 cards and work down to 1
+- If we are in a hurry, we often skip every other hands
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/route/class`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/). 
-Before running the tests make sure you are serving the app via `ng serve`.
-
-## Deploying to Github Pages
-
-Run `ng github-pages:deploy` to deploy to Github Pages.
-
-## Further help
-
-To get more help on the `angular-cli` use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## Known Issues
+This web app has several know issues. Most are related to lack of select (dropdown) support in Angular Material 2 right now. When that comes out I will
+update the app to use the Material Design components. 
+- If you use it on your phone you will get those ugly select menus
+- Chrome implements select differently than IE and Firefox. Only Chrome has a black field when the tied variable is undefined. As a result on IE and FF, if you want to set a dropdown to zero you have to select another
+  number and then select 0. Trying to include a blank line on IE and FF makes Chrome count wrong when adding up the selects for bids and tricks. Not worth
+  fixing before Material comes out.
+- There are popups that warn when bids haven't been entered or tricks don't add up to the cards in the hand. These are implemented as simple alerts for now.

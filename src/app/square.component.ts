@@ -123,4 +123,14 @@ setClasses() {
       //do nothing stage 4 is the final stage
     }
   }
+  decreaseSquareStage(){
+    if(this.stage > 0){
+      this.stage--;
+    }
+  }
+  skipSquareLevel(){
+    this.stage = 4;
+    this.squareBid = 0;
+    this.squarePoints = 0;
+  }
 }

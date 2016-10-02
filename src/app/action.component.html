@@ -1,13 +1,13 @@
-<span *ngIf="stage==0" ></span>
-<span *ngIf="stage==1" >{{cardLevel}}-{{bidSum}} = {{remainingPoints}}  
-    <button type="button" (click)="nextActionStage()" >Next</button>
-</span>
-<span *ngIf="stage==2" >Play Game 
-    <button type="button" (click)="nextActionStage()" >Next</button>
-</span>
-<span *ngIf="stage==3" >Record 
-    <button type="button" (click)="nextActionStage()" >Next</button>
-</span>
-<span *ngIf="stage==4" >Points 
-</span>
+<div *ngIf="stage==0" ></div>
+<div *ngIf="stage==1" >{{cardLevel}}-{{bidSum}} = {{remainingPoints}}&nbsp;&nbsp;
+    <button type="button" (click)="nextActionStage()" >Play</button>
+</div>
+<div *ngIf="stage==2" >{{overUnderPoints}}&nbsp;&nbsp; 
+    <button type="button" (click)="nextActionStage()" >Record</button>
+</div>
+<div *ngIf="stage==3" >
+    <button type="button" (click)="nextActionStage()" >Save</button>
+</div>
+<div *ngIf="stage==4" >
+</div>
 <!-- touch -->  

@@ -1,14 +1,15 @@
-<span *ngIf="stage==0"  >-</span>
-<span *ngIf="stage==1" [ngClass]="setClasses()" >
-  <select [(ngModel)]="squareBid" (change)="onChangeBid($event.target.value)" >
+<div *ngIf="stage==0"  >-</div>
+<div *ngIf="stage==1"  >
+  <select [(ngModel)]="squareBid" (change)="onChangeBid($event.target.value)" [ngClass]="setClasses()" >
     <option *ngFor="let p of squareCards" [ngValue]="p" >{{p}}</option>
   </select>
-</span>
-<span *ngIf="stage==2" [ngClass]="setClasses()" >{{squareBid}}</span>
-<span *ngIf="stage==3" >
-  <select [(ngModel)]="squareTricks" (change)="onChangeTricks($event.target.value)" >
+</div>
+<div *ngIf="stage==2" [ngClass]="setClasses()" >{{squareBid}}</div>
+<div *ngIf="stage==3" >
+  <span class="oldbid">{{squareBid}}</span>&nbsp;&nbsp;
+  <select [(ngModel)]="squareTricks" (change)="onChangeTricks($event.target.value)" [ngClass]="setClasses()" >
     <option *ngFor="let p of squareCards" [ngValue]="p" >{{p}}</option>
   </select>  
-</span>
-<span *ngIf="stage==4" [style.background-color]="isSpecial ? 'light blue' : ''" >{{squarePoints}}</span>
+</div>
+<div *ngIf="stage==4"  ><span class="oldbid">{{squareBid}}</span>&nbsp;&nbsp;{{squarePoints}}</div>
   

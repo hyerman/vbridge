@@ -1,8 +1,7 @@
 <header>Vanishing Bridge</header> 
 <div id="settings" *ngIf="myMode=='settings'" >
-  <h1>Settings</h1>
   Number of players: 
-  <select id="numPlayers" [(ngModel)]="numPlayers" (ngModelChange)="onChangeNumPlayers()">
+  <select id="numPlayers" [(ngModel)]="numPlayers" (change)="onChangeNumPlayers($event.target.value)">
     <option value="2">2</option>
     <option value="3">3</option>
     <option value="4">4</option>
@@ -21,7 +20,7 @@
     </li>
   </ul>
   First Dealer: 
-  <select id="startD" [(ngModel)]="startDealer" (ngModelChange)="onSelectDealer($event.target.value)" >
+  <select id="startD" [(ngModel)]="startDealer" (change)="onSelectDealer($event.target.value)" >
     <option *ngFor="let playerName of playerNames; let i =index;" [ngValue]="i">{{playerNames[i].name}}</option>
   </select>
   <button type="button" (click)="onPickRandomDealer()" >Pick random dealer</button>
@@ -34,15 +33,15 @@
       <th *ngFor="let playerName of playerNames; let i =index;" >{{playerNames[i].name}}</th>
       <th>Actions</th>
     </tr>
-    <tr *ngFor="let cl of cardLevels;">
+    <tr *ngFor="let cl of cardLevels;" id="tr{{cl}}">
       <td>{{cl}}</td>
       <td *ngFor="let playerName of playerNames; let i =index;" ><square [cardLevel]="cl" [playerID]="i" [startLvl]="maxCards" [numPlayers]="numPlayers" [startDealer]="startDealer" (bidSet)="onBidSet($event)" (pointsSet)="onPointsSet($event)" ></square></td>
-      <td ><action id={{cl}} [cardLevel]="cl" [startLvl]="maxCards" (actionStageIncreased)="onActionStageIncreased($event)" ></action></td>
+      <td id="td{{cl}}" ><action id="ac{{cl}}" [cardLevel]="cl" [startLvl]="maxCards" (actionStageIncreased)="onActionStageIncreased($event)" ></action></td>
     </tr>
     <tr>
       <td>Totals</td>
       <td *ngFor="let playerName of playerNames; let i =index;" >{{pointTotals[i]}}</td>
-      <td></td>
+      <td><button type="button" (click)="onRewind()" >Rewind</button><button type="button" (click)="onSkip()" >Skip</button></td>
     </tr>
   </table>
 </div>
